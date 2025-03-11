@@ -1,15 +1,15 @@
 import os
 import sys
 import time
-import anthropic
-import openai
+# import anthropic
+# import openai
 from ..base_classes import RandomLLM 
 from ..base_classes import InteractiveLLM
 from dotenv import load_dotenv
 # Import scripts for the different LLMs
-from .gpt import GPT3LLM, GPT4LLM
-from .anthropic import AnthropicLLM
-from .google import GoogleLLM
+# from .gpt import GPT3LLM, GPT4LLM
+# from .anthropic import AnthropicLLM
+# from .google import GoogleLLM
 from .hf import HF_API_LLM
 
 def get_llm(engine, temp, max_tokens, with_suffix=False):
@@ -34,25 +34,25 @@ def get_llm(engine, temp, max_tokens, with_suffix=False):
     # Check which engine is being used and assign the corresponding LLM object with the required parameters (e.g: API keys)
     if engine == "interactive":
         llm = InteractiveLLM('interactive')
-    elif engine.startswith("text-davinci") or engine.startswith("text-curie") or engine.startswith("text-babbage") or engine.startswith("text-ada"):
-        load_dotenv(); gpt_key = os.getenv("OPENAI_API_KEY")
-        llm = GPT3LLM((gpt_key, engine, with_suffix))
-    elif engine.startswith("gpt"):
-        # load_dotenv(); gpt_key = os.getenv(f"OPENAI_API_KEY{2 if engine == 'gpt-4' else ''}")
-        load_dotenv(); gpt_key = os.getenv(f"OPENAI_API_KEY")
-        llm = GPT4LLM((gpt_key, engine))
-    elif engine.startswith("claude"):
-        load_dotenv(); anthropic_key = os.getenv("ANTHROPIC_API_KEY")
-        llm = AnthropicLLM((anthropic_key, engine))
+    # elif engine.startswith("text-davinci") or engine.startswith("text-curie") or engine.startswith("text-babbage") or engine.startswith("text-ada"):
+    #     load_dotenv(); gpt_key = os.getenv("OPENAI_API_KEY")
+    #     llm = GPT3LLM((gpt_key, engine, with_suffix))
+    # elif engine.startswith("gpt"):
+    #     # load_dotenv(); gpt_key = os.getenv(f"OPENAI_API_KEY{2 if engine == 'gpt-4' else ''}")
+    #     load_dotenv(); gpt_key = os.getenv(f"OPENAI_API_KEY")
+    #     llm = GPT4LLM((gpt_key, engine))
+    # elif engine.startswith("claude"):
+    #     load_dotenv(); anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+    #     llm = AnthropicLLM((anthropic_key, engine))
     elif engine.startswith("hf") or engine.startswith("llama-2") :
         llm = HF_API_LLM((engine, max_tokens, temp))
     # elif engine.startswith("gemini"):
     #     load_dotenv(); gemini_key = os.getenv("GOOGLE_CREDENTIALS_FILENAME2")
     #     llm = GeminiLLM((gemini_key, engine))
     #     llm.is_gemini = True #See the TODO below
-    elif ('bison' in engine):
-        load_dotenv(); google_key = os.getenv("GOOGLE_CREDENTIALS_FILENAME2")
-        llm = GoogleLLM((google_key, engine))
+    # elif ('bison' in engine):
+    #     load_dotenv(); google_key = os.getenv("GOOGLE_CREDENTIALS_FILENAME2")
+    #     llm = GoogleLLM((google_key, engine))
     else:
         print('No key found')
         llm = RandomLLM(engine)
