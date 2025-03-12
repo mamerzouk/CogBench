@@ -1,3 +1,4 @@
+import os
 import torch
 import transformers
 from huggingface_hub import HfApi, HfFolder, InferenceApi
@@ -37,9 +38,11 @@ class HF_API_LLM(LLM):
                 engine = 'meta-llama/L' +engine[1:] + 'b-hf'
         else:
             print("Wrong engine name for HF API LLM")
-            raise NotImplementedError
+            # raise NotImplementedError
 
+        engine=os.getenv('TRANSFORMERS_CACHE')+engine
         print(engine)
+
         try:   
             tokenizer = AutoTokenizer.from_pretrained(engine)
             # tokenizer = AutoTokenizer.from_pretrained('meta-llama/Llama-2-13b-hf')
